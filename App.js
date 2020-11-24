@@ -1,21 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Display from "./components/Display";
+import ButtonPanel from "./components/ButtonPanel";
+import calculate from "./logic/calculate";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+class App extends React.Component {
+  state = {
+    total: null,
+    next: null,
+    operation: null,
+  };
+
+  handleClick = buttonName => {
+    this.setState(calculate(this.state, buttonName));
+  };
+
+  render() {
+    return (
+      <View style={styles.componentApp}>
+        <Display value={this.state.next || this.state.total || "0"} />
+        <ButtonPanel clickHandler={this.handleClick} />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  componentApp: {
+    borderColor: 'black',
+    borderWidth: 2,
+    margin: 0,
+    top: '20%'
+  }
 });
+
+export default App
